@@ -58,7 +58,7 @@ func _process(delta):
 		#I'm following, my objective is Pacman
 		objective = grid.get_player_pos()
 		anim.play("follow")
-		move_time = 0.3
+		move_time = 0.4
 		next_position = grid.astar_get_next_cell(grid_position,objective)
 	elif current_behavior == behavior.FLEE:
 		#I'm fleeing, mmy objective is far away from pacman
@@ -74,7 +74,7 @@ func _process(delta):
 		if grid_position == start_position :
 			current_behavior = behavior.FOLLOW
 	elif current_behavior == behavior.VICTORIOUS:
-		#I go back home to bring my trophy
+		print("#I go back home to bring my trophy")
 		next_position = start_position
 		anim.play("follow")
 		move_time = 1.5

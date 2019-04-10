@@ -100,6 +100,7 @@ func get_enemy_pos(id : String) -> Vector2:
 	return Vector2()
 
 #Returns the next cell to go for a path that goes from cell_from to cell_to
+
 func astar_get_next_cell(cell_from : Vector2, cell_to : Vector2) -> Vector2:
 	var cell_from_id = cell_from.x + map_size.x * cell_from.y
 	var cell_to_id = cell_to.x + map_size.x * cell_to.y
@@ -110,11 +111,12 @@ func astar_get_next_cell(cell_from : Vector2, cell_to : Vector2) -> Vector2:
 
 
 #Called once when the Game scene is loaded (like a constructor in OOP)
+
 func _ready():
 	wall_list = get_used_cells_by_id(0) + get_used_cells_by_id(1)
 	get_walkable_cells() 
 	astar_connect_walkable_cells()
-	player.position = map_to_world(Vector2(1,1))
+	player.position = map_to_world(Vector2(9,11))
 	for enemy in enemies:
 		enemy.position = map_to_world(enemy.start_position)
 
@@ -125,6 +127,10 @@ func _process(delta):
 	if player.grid_position == Vector2():
 		return
 	print('player : ',player.grid_position)
+	if (player.grid_position.x == -1):
+		player.position = map_to_world(Vector2(18,player.grid_position.y))
+	if (player.grid_position.x == 19):
+		player.position = map_to_world(Vector2(0,player.grid_position.y))
 	for enemy in enemies :
 		if player.grid_position == enemy.grid_position :
 			print('enemy : ',enemy.grid_position)

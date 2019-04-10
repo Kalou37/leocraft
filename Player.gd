@@ -50,7 +50,7 @@ func move() :
 		moving = true
 		#to move smoothlly from one cell to the next
 		tween.interpolate_property(self,"position", grid.map_to_world(grid_position), grid.map_to_world(grid_position+direction), 
-			0.1, Tween.TRANS_LINEAR, Tween.EASE_OUT_IN)
+			0.3, Tween.TRANS_LINEAR, Tween.EASE_OUT_IN)
 		tween.start()
 		#move until the tween animation is over
 		yield(tween,"tween_completed")

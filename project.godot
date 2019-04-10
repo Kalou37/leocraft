@@ -19,14 +19,10 @@ config/name="Nouveau projet de jeu"
 run/main_scene="res://Game.tscn"
 config/icon="res://icon.png"
 
-[debug]
-
-settings/fps/force_fps=30
-
 [display]
 
-window/size/width=544
-window/size/height=608
+window/size/width=608
+window/size/height=672
 window/size/resizable=false
 
 [rendering]
