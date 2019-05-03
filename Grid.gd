@@ -38,12 +38,12 @@ var bonuses_position : Array
 
 #return a Vector2 of the player's position in grid coordinates
 func get_player_pos() -> Vector2:
-	#when you work with a grid you often need to go from real coordinates (the pixels in the window)
-	#to grid coordinates (the cell's coordinates inside the grid
-	#for this we have two functions : 
+	# when you work with a grid you often need to go from real coordinates (the pixels in the window)
+	# to grid coordinates (the cell's coordinates inside the grid
+	# for this we have two functions : 
 	#	world_to_map -> converts coordinates in the window into grid coordinates
 	#	map_to_world -> converts grid cell coordinates into window's pixel coordinates
-	#to ease working with maps, unless stated otherwise every coordinates pair are in grid coordinates
+	# to ease working with maps, unless stated otherwise every coordinates pair are in grid coordinates
 	return(world_to_map(player.position))
 	
 #builds the class variable walkable_cells (I.E. get dynamicly all the cells that are not walls)
@@ -58,12 +58,12 @@ func get_walkable_cells() -> void:
 			navigation.add_point(cell_id, Vector3(cell.x,cell.y,0.0))
 			walkable_cells.append(cell)
 
-#return true if the cell is out of the grid's bounds
+# return true if the cell is out of the grid's bounds
 func out_of_bounds(cell : Vector2) -> bool:
 	return cell.x < 0 or cell.y < 0 or cell.x >= map_size.x or cell.y >= map_size.y
 
-#builds automaticaly the graph of the walkable cells for the pathfinding algorithm
-#by connecting walkable cells that are next to each other
+# builds automaticaly the graph of the walkable cells for the pathfinding algorithm
+# by connecting walkable cells that are next to each other
 func astar_connect_walkable_cells() -> void :
 	for cell in walkable_cells:
 		var cell_id = cell.x + map_size.x * cell.y
@@ -79,14 +79,14 @@ func astar_connect_walkable_cells() -> void :
 			if not navigation.has_point(neighbor_id) : continue
 			navigation.connect_points(cell_id, neighbor_id, false)
 
-#return true if the cell from+direction is walkable
+# return true if the cell from+direction is walkable
 func can_move(from : Vector2, direction : Vector2) -> bool:
 	var npos = from + direction
 	if npos in wall_list :
 		return false
 	return true
 
-#return the grid coordinates of the enemy
+# return the grid coordinates of the enemy
 func get_enemy_pos(id : String) -> Vector2:
 	match id:
 		"Inky":
@@ -99,8 +99,7 @@ func get_enemy_pos(id : String) -> Vector2:
 			return world_to_map(Clyde.position)
 	return Vector2()
 
-#Returns the next cell to go for a path that goes from cell_from to cell_to
-
+# Returns the next cell to go for a path that goes from cell_from to cell_to
 func astar_get_next_cell(cell_from : Vector2, cell_to : Vector2) -> Vector2:
 	var cell_from_id = cell_from.x + map_size.x * cell_from.y
 	var cell_to_id = cell_to.x + map_size.x * cell_to.y
@@ -110,8 +109,7 @@ func astar_get_next_cell(cell_from : Vector2, cell_to : Vector2) -> Vector2:
 	return Vector2()
 
 
-#Called once when the Game scene is loaded (like a constructor in OOP)
-
+# Called once when the Game scene is loaded (like a constructor in OOP)
 func _ready():
 	wall_list = get_used_cells_by_id(0) + get_used_cells_by_id(1)
 	get_walkable_cells() 
@@ -126,21 +124,20 @@ func _ready():
 func _process(delta):
 	if player.grid_position == Vector2():
 		return
-	print('player : ',player.grid_position)
-	if (player.grid_position.x == -1):
-		player.position = map_to_world(Vector2(18,player.grid_position.y))
-	if (player.grid_position.x == 19):
-		player.position = map_to_world(Vector2(0,player.grid_position.y))
+	# print('player : ',player.grid_position)
+	if (player.grid_position.x == -2):
+		player.position = map_to_world(Vector2(19,player.grid_position.y))
+	if (player.grid_position.x == 20):
+		player.position = map_to_world(Vector2(-1,player.grid_position.y))
 	for enemy in enemies :
 		if player.grid_position == enemy.grid_position :
 			print('enemy : ',enemy.grid_position)
 			if enemy.is_following():
 				player.get_eaten()
-				Inky.set_victorious()
-				Blinky.set_victorious()
-				Pinky.set_victorious()
-				Clyde.set_victorious()
-				print("toto")
+				Inky.set_standing()
+				Blinky.set_standing()
+				Pinky.set_standing()
+				Clyde.set_standing()
 			elif enemy.is_fleeing():
 				enemy.get_eaten()
 				player.eat_enemy()

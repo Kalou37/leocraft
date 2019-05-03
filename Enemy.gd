@@ -31,7 +31,7 @@ onready var tween = $AnimatedSprite/Tween
 #-> FLEE : Pacman can eat ghots we must flee him
 #-> DEAD : I'm dead, I go back to my starting point
 #-> VICTORIOUS : one of us has eaten Pacman but we still need to go somewhere
-enum behavior {FOLLOW, FLEE, DEAD, VICTORIOUS}
+enum behavior {FOLLOW, FLEE, STAND, DEAD, VICTORIOUS}
 
 #the starting behavior
 var current_behavior = behavior.FOLLOW
@@ -42,9 +42,28 @@ var player_position : Vector2
 #The position of the enemy in grid coordinates
 var grid_position : Vector2
 
+var startTimer = null
+var timerDelay = 0
 #Set the enemy position to its init posisition
+
 func _ready():
-	pass
+	if(ID == "Blinky"):
+		timerDelay = 2
+	elif(ID == "Pinky"):
+		timerDelay = 4
+	elif(ID == "Inky"):
+		timerDelay = 6
+	elif(ID == "Clyde"):
+		timerDelay = 8
+
+	startTimer = Timer.new()
+	startTimer.set_wait_time(timerDelay)
+	startTimer.set_one_shot(true)
+	startTimer.connect("timeout", self, "_on_Timer_timeout")
+	current_behavior = behavior.STAND
+	add_child(startTimer)
+	startTimer.start()
+	#	
 	#position = grid.map_to_world(start_position)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -57,8 +76,8 @@ func _process(delta):
 	if current_behavior == behavior.FOLLOW:
 		#I'm following, my objective is Pacman
 		objective = grid.get_player_pos()
-		anim.play("follow")
-		move_time = 0.4
+		anim.play(ID)
+		move_time = 0.3
 		next_position = grid.astar_get_next_cell(grid_position,objective)
 	elif current_behavior == behavior.FLEE:
 		#I'm fleeing, mmy objective is far away from pacman
@@ -66,6 +85,10 @@ func _process(delta):
 		anim.play("flee")
 		move_time = 0.3
 		next_position = grid.astar_get_next_cell(grid_position,objective)
+	elif current_behavior == behavior.STAND:
+		next_position = grid.get_enemy_pos(ID)
+		anim.play(ID)
+		move_time = 0.3
 	elif current_behavior == behavior.DEAD:
 		#I'm dead I blink and go back home
 		next_position = start_position
@@ -81,7 +104,6 @@ func _process(delta):
 		if grid_position == start_position :
 			current_behavior = behavior.FOLLOW
 	
-	print(current_behavior)
 	#I get my next position from the grid
 
 	if next_position == Vector2():
@@ -101,7 +123,11 @@ func _process(delta):
 	#we now allow _process to be called on the next frame since we are finished moving
 	#this will allow us to get our next position and move to it
 	set_process(true)
-	
+
+
+func _on_Timer_timeout():
+	current_behavior = behavior.FOLLOW
+
 #Set the Enemy behavior when he is eaten by Pacman
 func get_eaten() :
 	current_behavior = behavior.DEAD
@@ -110,6 +136,9 @@ func get_eaten() :
 func set_victorious() :
 	current_behavior = behavior.VICTORIOUS
 
+func set_standing() : 
+	current_behavior = behavior.STAND
+
 #retrun true if our current behavior is FOLLOW
 func is_following() : 
 	return current_behavior == behavior.FOLLOW
@@ -117,3 +146,6 @@ func is_following() :
 #retrun true if our current behavior is FLEE
 func is_fleeing() : 
 	return current_behavior == behavior.FLEE
+
+func is_standing() : 
+	return current_behavior == behavior.STAND
