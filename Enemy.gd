@@ -4,7 +4,7 @@ extends Node2D
 export var ID : String
 
 #its start_position on the grid
-export var start_position : Vector2
+export var start_position : 	Vector2
 
 #var UP = Vector2(0,-1)
 #var DOWN = Vector2(0,1)
@@ -34,7 +34,7 @@ onready var tween = $AnimatedSprite/Tween
 enum behavior {FOLLOW, FLEE, STAND, DEAD, VICTORIOUS}
 
 #the starting behavior
-var current_behavior = behavior.FOLLOW
+var current_behavior = behavior.STAND
 
 #we always know where the player is (updated each frame)
 var player_position : Vector2
@@ -138,6 +138,9 @@ func set_victorious() :
 
 func set_standing() : 
 	current_behavior = behavior.STAND
+	
+func set_fleeing() : 
+	current_behavior = behavior.FLEE
 
 #retrun true if our current behavior is FOLLOW
 func is_following() : 

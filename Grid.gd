@@ -36,6 +36,12 @@ var walkable_cells : Array
 #list of Vector2 of the bonuses position (in grid coordidates)
 var bonuses_position : Array
 
+var mega_bonuses_position : Array
+
+var grid
+
+var scorePartie : int
+
 #return a Vector2 of the player's position in grid coordinates
 func get_player_pos() -> Vector2:
 	# when you work with a grid you often need to go from real coordinates (the pixels in the window)
@@ -111,7 +117,10 @@ func astar_get_next_cell(cell_from : Vector2, cell_to : Vector2) -> Vector2:
 
 # Called once when the Game scene is loaded (like a constructor in OOP)
 func _ready():
-	wall_list = get_used_cells_by_id(0) + get_used_cells_by_id(1)
+	grid = get_parent()
+	wall_list = get_used_cells_by_id(0)
+	bonuses_position = get_used_cells_by_id(1)
+	mega_bonuses_position = get_used_cells_by_id(2)
 	get_walkable_cells() 
 	astar_connect_walkable_cells()
 	player.position = map_to_world(Vector2(9,11))
@@ -124,11 +133,13 @@ func _ready():
 func _process(delta):
 	if player.grid_position == Vector2():
 		return
-	# print('player : ',player.grid_position)
+	
+	# Warp Zone : déplace le joueur s'il sort de la zone au niveau des warps
 	if (player.grid_position.x == -2):
 		player.position = map_to_world(Vector2(19,player.grid_position.y))
 	if (player.grid_position.x == 20):
 		player.position = map_to_world(Vector2(-1,player.grid_position.y))
+		
 	for enemy in enemies :
 		if player.grid_position == enemy.grid_position :
 			print('enemy : ',enemy.grid_position)
@@ -138,15 +149,32 @@ func _process(delta):
 				Blinky.set_standing()
 				Pinky.set_standing()
 				Clyde.set_standing()
+				Inky.startTimer.stop()
+				Blinky.startTimer.stop()
+				Pinky.startTimer.stop()
+				Clyde.startTimer.stop()
 			elif enemy.is_fleeing():
 				enemy.get_eaten()
 				player.eat_enemy()
+	if player.grid_position in bonuses_position:
+		retirerPiece(player.grid_position)
+	if player.grid_position in mega_bonuses_position:
+		superPiece(player.grid_position)
+
+
 	#TODO : Create a Bonus scene and manage the bonus logic 
 	#	in the grid and in the player
 	#if player.grid_position in bonuses_position:
 	#	var bonus = get_bonus_at(player.grid_position)
 	#	player.eat_bonus(bonus.get_type())
-		
-			
-			
-			
+	
+func retirerPiece(pos):
+	self.set_cellv(pos, 3)
+	scorePartie += 1
+	
+func superPiece(pos):
+	self.set_cellv(pos, 3)
+	scorePartie += 5
+	for enemy in enemies :
+		enemy.set_fleeing()
+	

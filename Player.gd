@@ -46,16 +46,16 @@ func _ready():
 #move the player
 func move() :
 	#iw we can move to the cell in grid_position + direction, we do
-	if grid.can_move(grid_position, direction):
-		moving = true
-		#to move smoothlly from one cell to the next
-		tween.interpolate_property(self,"position", grid.map_to_world(grid_position), grid.map_to_world(grid_position+direction), 
-			0.3, Tween.TRANS_LINEAR, Tween.EASE_OUT_IN)
-		tween.start()
-		#move until the tween animation is over
-		yield(tween,"tween_completed")
-		moving = false
-	
+	if current_state != state.DEAD :
+		if grid.can_move(grid_position, direction):
+			moving = true
+			#to move smoothlly from one cell to the next
+			tween.interpolate_property(self,"position", grid.map_to_world(grid_position), grid.map_to_world(grid_position+direction), 
+				0.3, Tween.TRANS_LINEAR, Tween.EASE_OUT_IN)
+			tween.start()
+			#move until the tween animation is over
+			yield(tween,"tween_completed")
+			moving = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -70,16 +70,17 @@ func _process(delta):
 	
 	#if we can move from our position in the next direction, 
 	#we need to change some values
-	if grid.can_move(grid_position, next_direction):
-		direction = next_direction
-		if direction == UP :
-			anim.play("up")
-		elif direction == DOWN:
-			anim.play("down")
-		elif direction == LEFT:
-			anim.play("left")
-		elif direction == RIGHT:
-			anim.play("right")
+	if current_state != state.DEAD:
+		if grid.can_move(grid_position, next_direction):
+			direction = next_direction
+			if direction == UP :
+				anim.play("up")
+			elif direction == DOWN:
+				anim.play("down")
+			elif direction == LEFT:
+				anim.play("left")
+			elif direction == RIGHT:
+				anim.play("right")
 	#if we are not already moving we move.
 	#this allows us to alwas move in the same direction
 	#until :
@@ -93,4 +94,7 @@ func _process(delta):
 #TODO : decrease lives
 #	check for game over
 func get_eaten():
+	print("MORT")
+	tween.stop_all()
 	current_state = state.DEAD
+	print(grid.scorePartie)

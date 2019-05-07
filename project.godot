@@ -15,7 +15,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Nouveau projet de jeu"
+config/name="LeoCraft"
 run/main_scene="res://Game.tscn"
 config/icon="res://icon.png"
 

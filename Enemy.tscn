@@ -2,14 +2,14 @@
 
 [ext_resource path="res://Enemy.gd" type="Script" id=1]
 [ext_resource path="res://assets/enemy/Eyes.png" type="Texture" id=2]
-[ext_resource path="res://assets/enemy/ClydeFollow1.png" type="Texture" id=3]
-[ext_resource path="res://assets/enemy/ClydeFollow2.png" type="Texture" id=4]
-[ext_resource path="res://assets/enemy/InkyFollow1.png" type="Texture" id=5]
-[ext_resource path="res://assets/enemy/InkyFollow2.png" type="Texture" id=6]
+[ext_resource path="res://assets/enemy/InkyFollow1.png" type="Texture" id=3]
+[ext_resource path="res://assets/enemy/InkyFollow2.png" type="Texture" id=4]
+[ext_resource path="res://assets/enemy/PinkyFollow1.png" type="Texture" id=5]
+[ext_resource path="res://assets/enemy/PinkyFollow2.png" type="Texture" id=6]
 [ext_resource path="res://assets/enemy/BlinkyFollow1.png" type="Texture" id=7]
 [ext_resource path="res://assets/enemy/BlinkyFollow2.png" type="Texture" id=8]
-[ext_resource path="res://assets/enemy/PinkyFollow1.png" type="Texture" id=9]
-[ext_resource path="res://assets/enemy/PinkyFollow2.png" type="Texture" id=10]
+[ext_resource path="res://assets/enemy/ClydeFollow1.png" type="Texture" id=9]
+[ext_resource path="res://assets/enemy/ClydeFollow2.png" type="Texture" id=10]
 [ext_resource path="res://assets/enemy/Affraid1.png" type="Texture" id=11]
 [ext_resource path="res://assets/enemy/Affraid2.png" type="Texture" id=12]
 
@@ -22,12 +22,12 @@ animations = [ {
 }, {
 "frames": [ ExtResource( 3 ), ExtResource( 4 ) ],
 "loop": true,
-"name": "Clyde",
+"name": "Inky",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 5 ), ExtResource( 6 ) ],
 "loop": true,
-"name": "Inky",
+"name": "Pinky",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
@@ -37,12 +37,12 @@ animations = [ {
 }, {
 "frames": [ ExtResource( 9 ), ExtResource( 10 ) ],
 "loop": true,
-"name": "Pinky",
+"name": "Clyde",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 11 ), ExtResource( 12 ) ],
 "loop": true,
-"name": "Affraid",
+"name": "flee",
 "speed": 5.0
 } ]
 
