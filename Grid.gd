@@ -142,7 +142,6 @@ func _process(delta):
 		
 	for enemy in enemies :
 		if player.grid_position == enemy.grid_position :
-			print('enemy : ',enemy.grid_position)
 			if enemy.is_following():
 				player.get_eaten()
 				Inky.set_standing()
@@ -155,7 +154,6 @@ func _process(delta):
 				Clyde.startTimer.stop()
 			elif enemy.is_fleeing():
 				enemy.get_eaten()
-				player.eat_enemy()
 	if player.grid_position in bonuses_position:
 		retirerPiece(player.grid_position)
 	if player.grid_position in mega_bonuses_position:
@@ -170,10 +168,12 @@ func _process(delta):
 	
 func retirerPiece(pos):
 	self.set_cellv(pos, 3)
+	bonuses_position.erase(pos)
 	scorePartie += 1
 	
 func superPiece(pos):
 	self.set_cellv(pos, 3)
+	mega_bonuses_position.erase(pos)
 	scorePartie += 5
 	for enemy in enemies :
 		enemy.set_fleeing()

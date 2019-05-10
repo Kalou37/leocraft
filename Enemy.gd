@@ -6,6 +6,8 @@ export var ID : String
 #its start_position on the grid
 export var start_position : 	Vector2
 
+var start_all_position = Vector2(9,9)
+
 #var UP = Vector2(0,-1)
 #var DOWN = Vector2(0,1)
 #var LEFT = Vector2(-1,0)
@@ -81,9 +83,9 @@ func _process(delta):
 		next_position = grid.astar_get_next_cell(grid_position,objective)
 	elif current_behavior == behavior.FLEE:
 		#I'm fleeing, mmy objective is far away from pacman
-		objective = grid.map_size
-		anim.play("flee")
-		move_time = 0.3
+		objective = start_all_position
+		anim.play("Flee")
+		move_time = 0.5
 		next_position = grid.astar_get_next_cell(grid_position,objective)
 	elif current_behavior == behavior.STAND:
 		next_position = grid.get_enemy_pos(ID)
@@ -91,18 +93,19 @@ func _process(delta):
 		move_time = 0.3
 	elif current_behavior == behavior.DEAD:
 		#I'm dead I blink and go back home
-		next_position = start_position
-		anim.play("blink")
-		move_time = 1.5
-		if grid_position == start_position :
+		objective = start_all_position
+		anim.play("Eyes")
+		move_time = 0.1
+		next_position = grid.astar_get_next_cell(grid_position,objective)
+		if grid_position == start_all_position :
 			current_behavior = behavior.FOLLOW
 	elif current_behavior == behavior.VICTORIOUS:
 		print("#I go back home to bring my trophy")
-		next_position = start_position
-		anim.play("follow")
-		move_time = 1.5
-		if grid_position == start_position :
-			current_behavior = behavior.FOLLOW
+		#next_position = start_position
+		#anim.play("follow")
+		#move_time = 1.5
+		#if grid_position == start_position :
+		#	current_behavior = behavior.FOLLOW
 	
 	#I get my next position from the grid
 
