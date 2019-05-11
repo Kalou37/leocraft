@@ -1,17 +1,26 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Enemy.gd" type="Script" id=1]
 [ext_resource path="res://assets/enemy/Eyes.png" type="Texture" id=2]
-[ext_resource path="res://assets/enemy/InkyFollow1.png" type="Texture" id=3]
-[ext_resource path="res://assets/enemy/InkyFollow2.png" type="Texture" id=4]
-[ext_resource path="res://assets/enemy/BlinkyFollow1.png" type="Texture" id=5]
-[ext_resource path="res://assets/enemy/BlinkyFollow2.png" type="Texture" id=6]
-[ext_resource path="res://assets/enemy/PinkyFollow1.png" type="Texture" id=7]
-[ext_resource path="res://assets/enemy/PinkyFollow2.png" type="Texture" id=8]
-[ext_resource path="res://assets/enemy/ClydeFollow1.png" type="Texture" id=9]
-[ext_resource path="res://assets/enemy/ClydeFollow2.png" type="Texture" id=10]
-[ext_resource path="res://assets/enemy/Affraid1.png" type="Texture" id=11]
-[ext_resource path="res://assets/enemy/Affraid2.png" type="Texture" id=12]
+[ext_resource path="res://assets/enemy/ghost_blue_x64_1.png" type="Texture" id=3]
+[ext_resource path="res://assets/enemy/ghost_blue_x64_2.png" type="Texture" id=4]
+[ext_resource path="res://assets/enemy/ghost_blue_x64_3.png" type="Texture" id=5]
+[ext_resource path="res://assets/enemy/ghost_blue_x64_4.png" type="Texture" id=6]
+[ext_resource path="res://assets/enemy/ghost_pink_x64_1.png" type="Texture" id=7]
+[ext_resource path="res://assets/enemy/ghost_pink_x64_2.png" type="Texture" id=8]
+[ext_resource path="res://assets/enemy/ghost_pink_x64_3.png" type="Texture" id=9]
+[ext_resource path="res://assets/enemy/ghost_pink_x64_4.png" type="Texture" id=10]
+[ext_resource path="res://assets/enemy/ghost_gold_x64_1.png" type="Texture" id=11]
+[ext_resource path="res://assets/enemy/ghost_gold_x64_2.png" type="Texture" id=12]
+[ext_resource path="res://assets/enemy/ghost_gold_x64_3.png" type="Texture" id=13]
+[ext_resource path="res://assets/enemy/ghost_gold_x64_4.png" type="Texture" id=14]
+[ext_resource path="res://assets/enemy/ghost_red_x64_1.png" type="Texture" id=15]
+[ext_resource path="res://assets/enemy/ghost_red_x64_2.png" type="Texture" id=16]
+[ext_resource path="res://assets/enemy/ghost_red_x64_3.png" type="Texture" id=17]
+[ext_resource path="res://assets/enemy/ghost_red_x64_4.png" type="Texture" id=18]
+[ext_resource path="res://assets/enemy/Affraid1.png" type="Texture" id=19]
+[ext_resource path="res://assets/enemy/Affraid2.png" type="Texture" id=20]
+[ext_resource path="res://assets/sons/scream3.wav" type="AudioStream" id=21]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -20,27 +29,27 @@ animations = [ {
 "name": "Eyes",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 3 ), ExtResource( 4 ) ],
+"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
 "loop": true,
 "name": "Inky",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 5 ), ExtResource( 6 ) ],
-"loop": true,
-"name": "Blinky",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
+"frames": [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ) ],
 "loop": true,
 "name": "Pinky",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 9 ), ExtResource( 10 ) ],
+"frames": [ ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ) ],
 "loop": true,
 "name": "Clyde",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 11 ), ExtResource( 12 ) ],
+"frames": [ ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ) ],
+"loop": true,
+"name": "Blinky",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 19 ), ExtResource( 20 ) ],
 "loop": true,
 "name": "Flee",
 "speed": 5.0
@@ -51,11 +60,13 @@ script = ExtResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 32, 32 )
-scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 1 )
 animation = "Blinky"
 frame = 1
 playing = true
 
 [node name="Tween" type="Tween" parent="AnimatedSprite"]
+
+[node name="EatGhost" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 21 )
 

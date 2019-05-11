@@ -41,7 +41,7 @@ enum state {PREY, HUNTER, DEAD}
 var current_state = state.PREY
 
 func _ready():
-	pass 
+	pass
 
 #move the player
 func move() :
@@ -98,3 +98,7 @@ func get_eaten():
 	tween.stop_all()
 	current_state = state.DEAD
 	print(grid.scorePartie)
+	
+func restart():
+	current_state = state.PREY
+	moving = false

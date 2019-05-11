@@ -1,52 +1,29 @@
 extends Node2D
 
-#an ID for the enemy
 export var ID : String
 
-#its start_position on the grid
-export var start_position : 	Vector2
+export var start_position : Vector2
 
 var start_all_position = Vector2(9,9)
 
-#var UP = Vector2(0,-1)
-#var DOWN = Vector2(0,1)
-#var LEFT = Vector2(-1,0)
-#var RIGHT = Vector2(1,0)
-#var IDLE = Vector2(0,0)
-
-#pointer to the AnimatedSprite cild
 onready var anim = $AnimatedSprite
 
-#pointer to the grid
 onready var grid = get_parent()
 
-#pointer to the Tween child
-#in game development tweening is the process of
-#calcultating interpolations between two positions
-#to move an object
 onready var tween = $AnimatedSprite/Tween
 
-#the diferent behaviors of the enemy
-#allows us to implement a state machine for the enemy
-#	"if I am in this state, I know I must do precisely this thing
-#-> FOLLOW : Follow pacman and try to eat him
-#-> FLEE : Pacman can eat ghots we must flee him
-#-> DEAD : I'm dead, I go back to my starting point
-#-> VICTORIOUS : one of us has eaten Pacman but we still need to go somewhere
+onready var player = $Player
+
 enum behavior {FOLLOW, FLEE, STAND, DEAD, VICTORIOUS}
 
-#the starting behavior
 var current_behavior = behavior.STAND
 
-#we always know where the player is (updated each frame)
 var player_position : Vector2
 
-#The position of the enemy in grid coordinates
 var grid_position : Vector2
 
-var startTimer = null
+var startTimer = Timer.new()
 var timerDelay = 0
-#Set the enemy position to its init posisition
 
 func _ready():
 	if(ID == "Blinky"):
@@ -58,7 +35,6 @@ func _ready():
 	elif(ID == "Clyde"):
 		timerDelay = 8
 
-	startTimer = Timer.new()
 	startTimer.set_wait_time(timerDelay)
 	startTimer.set_one_shot(true)
 	startTimer.connect("timeout", self, "_on_Timer_timeout")
@@ -83,14 +59,14 @@ func _process(delta):
 		next_position = grid.astar_get_next_cell(grid_position,objective)
 	elif current_behavior == behavior.FLEE:
 		#I'm fleeing, mmy objective is far away from pacman
-		objective = start_all_position
+		#1 = droite et bas / 0 = gauche et haut
+		objective = get_next_flee_cell()
 		anim.play("Flee")
 		move_time = 0.5
 		next_position = grid.astar_get_next_cell(grid_position,objective)
 	elif current_behavior == behavior.STAND:
-		next_position = grid.get_enemy_pos(ID)
 		anim.play(ID)
-		move_time = 0.3
+		move_time = 0
 	elif current_behavior == behavior.DEAD:
 		#I'm dead I blink and go back home
 		objective = start_all_position
@@ -100,7 +76,7 @@ func _process(delta):
 		if grid_position == start_all_position :
 			current_behavior = behavior.FOLLOW
 	elif current_behavior == behavior.VICTORIOUS:
-		print("#I go back home to bring my trophy")
+		print("#Je vous emmerde et je rentre à ma maison")
 		#next_position = start_position
 		#anim.play("follow")
 		#move_time = 1.5
@@ -127,13 +103,30 @@ func _process(delta):
 	#this will allow us to get our next position and move to it
 	set_process(true)
 
-
+func get_next_flee_cell():
+	var pos_fuite = Vector2()
+	if(grid.get_player_pos().x < grid.get_enemy_pos(ID).x):
+		pos_fuite.x = 17
+	else:
+		pos_fuite.x = 1
+	if(grid.get_player_pos().y < grid.get_enemy_pos(ID).y):
+		pos_fuite.y = 19
+	else:
+		pos_fuite.y = 1
+	if((grid.get_enemy_pos(ID) == Vector2(1,1)) or (grid.get_enemy_pos(ID) == Vector2(1,19)) or (grid.get_enemy_pos(ID) == Vector2(17,1)) or (grid.get_enemy_pos(ID) == Vector2(17,19))):
+		if(abs(grid.get_enemy_pos(ID).x-grid.get_player_pos().x) < abs(grid.get_enemy_pos(ID).y-grid.get_player_pos().y)):
+    		pos_fuite.x = abs(pos_fuite.x-18)
+		else:
+			pos_fuite.y = abs(pos_fuite.y-20)
+	return(pos_fuite)
+	
 func _on_Timer_timeout():
 	current_behavior = behavior.FOLLOW
 
 #Set the Enemy behavior when he is eaten by Pacman
 func get_eaten() :
 	current_behavior = behavior.DEAD
+	$EatGhost.play()
 
 #Set the Enemy bheavior when one of the has eaten Pacman
 func set_victorious() :
@@ -144,6 +137,9 @@ func set_standing() :
 	
 func set_fleeing() : 
 	current_behavior = behavior.FLEE
+	
+func set_following() : 
+	current_behavior = behavior.FOLLOW
 
 #retrun true if our current behavior is FOLLOW
 func is_following() : 
