@@ -22,6 +22,8 @@ var player_position : Vector2
 
 var grid_position : Vector2
 
+var fleeEnd : bool = false
+
 var startTimer = Timer.new()
 var timerDelay = 0
 
@@ -29,11 +31,11 @@ func _ready():
 	if(ID == "Blinky"):
 		timerDelay = 2
 	elif(ID == "Pinky"):
-		timerDelay = 4
+		timerDelay = 3
 	elif(ID == "Inky"):
-		timerDelay = 6
+		timerDelay = 4
 	elif(ID == "Clyde"):
-		timerDelay = 8
+		timerDelay = 5
 
 	startTimer.set_wait_time(timerDelay)
 	startTimer.set_one_shot(true)
@@ -61,7 +63,10 @@ func _process(delta):
 		#I'm fleeing, mmy objective is far away from pacman
 		#1 = droite et bas / 0 = gauche et haut
 		objective = get_next_flee_cell()
-		anim.play("Flee")
+		if fleeEnd:
+			anim.play("FleeEnd")
+		else:
+			anim.play("Flee")
 		move_time = 0.5
 		next_position = grid.astar_get_next_cell(grid_position,objective)
 	elif current_behavior == behavior.STAND:

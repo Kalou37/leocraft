@@ -1,10 +1,13 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/player/left.png" type="Texture" id=2]
 [ext_resource path="res://assets/player/right.png" type="Texture" id=3]
 [ext_resource path="res://assets/player/back.png" type="Texture" id=4]
-[ext_resource path="res://assets/player/face.png" type="Texture" id=5]
+[ext_resource path="res://assets/player/tank_1_64.png" type="Texture" id=5]
+[ext_resource path="res://assets/player/tank_2_64.png" type="Texture" id=6]
+[ext_resource path="res://assets/player/tank_3_64.png" type="Texture" id=7]
+[ext_resource path="res://assets/player/face.png" type="Texture" id=8]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -23,20 +26,37 @@ animations = [ {
 "name": "up",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 5 ) ],
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "char",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ) ],
 "loop": true,
 "name": "down",
 "speed": 5.0
 } ]
 
-[node name="Player" type="Node2D"]
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 12.4705, 28.3333 )
+
+[node name="Player" type="Area2D"]
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+editor/display_folded = true
 frames = SubResource( 1 )
 animation = "right"
 playing = true
 centered = false
 
 [node name="Tween" type="Tween" parent="AnimatedSprite"]
+
+[node name="CollPlayer" type="CollisionShape2D" parent="."]
+position = Vector2( 21.4361, 31.2861 )
+scale = Vector2( 1.5, 1 )
+shape = SubResource( 2 )
 

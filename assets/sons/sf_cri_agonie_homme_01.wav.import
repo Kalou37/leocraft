@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sf_cri_agonie_homme_01.wav-c7d9f2ac1e7136fae97b1cc978468174.sample"
+
+[deps]
+
+source_file="res://assets/sons/sf_cri_agonie_homme_01.wav"
+dest_files=[ "res://.import/sf_cri_agonie_homme_01.wav-c7d9f2ac1e7136fae97b1cc978468174.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

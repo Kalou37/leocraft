@@ -28,6 +28,8 @@ var next_direction :Vector2
 #the player's position on the grid
 var grid_position : Vector2
 
+var mode_char : bool = false
+
 #true if the player is currently moving
 var moving = false
 
@@ -59,11 +61,21 @@ func move() :
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	var dir_x : int = 0
+	var dir_y : int = 0
 	grid_position = grid.get_player_pos()
 	#get input from the player in a Vector2 that will be
 	#one of the directional vectors. IDLE happens when there are no input 
-	var input_direction = Vector2(int(Input.is_action_pressed("ui_right"))-int(Input.is_action_pressed("ui_left")),
-					int(Input.is_action_pressed("ui_down"))-int(Input.is_action_pressed("ui_up")))
+	if(Input.get_joy_axis(0, JOY_AXIS_0) != 0):
+		dir_x = Input.get_joy_axis(0, JOY_AXIS_0)
+	if(Input.get_joy_axis(0, JOY_AXIS_2) != 0):
+		dir_y = Input.get_joy_axis(0, JOY_AXIS_2)
+	if(int(Input.is_action_pressed("ui_right"))-int(Input.is_action_pressed("ui_left")) != 0):
+		dir_x = int(Input.is_action_pressed("ui_right"))-int(Input.is_action_pressed("ui_left"))
+	if(int(Input.is_action_pressed("ui_down"))-int(Input.is_action_pressed("ui_up")) != 0):
+		dir_y = int(Input.is_action_pressed("ui_down"))-int(Input.is_action_pressed("ui_up"))
+	var input_direction = Vector2(dir_x, dir_y)
+	print(input_direction)
 	#if the input is valid (not IDLE) it will be our next direction
 	if input_direction != IDLE :
 		next_direction = input_direction
@@ -73,14 +85,15 @@ func _process(delta):
 	if current_state != state.DEAD:
 		if grid.can_move(grid_position, next_direction):
 			direction = next_direction
-			if direction == UP :
-				anim.play("up")
-			elif direction == DOWN:
-				anim.play("down")
-			elif direction == LEFT:
-				anim.play("left")
-			elif direction == RIGHT:
-				anim.play("right")
+			if(!mode_char):
+				if direction == UP :
+					anim.play("up")
+				elif direction == DOWN:
+					anim.play("down")
+				elif direction == LEFT:
+					anim.play("left")
+				elif direction == RIGHT:
+					anim.play("right")
 	#if we are not already moving we move.
 	#this allows us to alwas move in the same direction
 	#until :
@@ -95,10 +108,16 @@ func _process(delta):
 #	check for game over
 func get_eaten():
 	print("MORT")
-	tween.stop_all()
 	current_state = state.DEAD
-	print(grid.scorePartie)
 	
 func restart():
 	current_state = state.PREY
 	moving = false
+	
+func set_transformation(val):
+	if(val):
+		mode_char = true
+		anim.play("char")
+	else:
+		mode_char = false
+		anim.play("right")

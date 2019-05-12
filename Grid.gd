@@ -16,8 +16,6 @@ onready var enemies = [Inky, Blinky, Pinky, Clyde]
 
 var navigation = AStar.new()
 
-var WALLS := [0,1]
-
 var wall_list : Array
 
 var walkable_cells : Array
@@ -28,11 +26,17 @@ var mega_bonuses_position : Array
 
 var grid
 
-var scorePartie : int
+var scorePartie : int = 0
 
 var timerFlee = Timer.new()
 
+var timerFleeEnd = Timer.new()
+
 var timerDead = Timer.new()
+
+var player_victory : bool = false
+
+export var player_life : int = 3
 
 func get_player_pos() -> Vector2:
 	return(world_to_map(player.position))
@@ -107,6 +111,10 @@ func _ready():
 	timerFlee.set_one_shot(true)
 	timerFlee.connect("timeout", self, "_on_flee_timeout")
 	add_child(timerFlee)
+	timerFleeEnd.set_wait_time(8)
+	timerFleeEnd.set_one_shot(true)
+	timerFleeEnd.connect("timeout", self, "_on_flee_end_timeout")
+	add_child(timerFleeEnd)
 	timerDead.set_wait_time(3)
 	timerDead.set_one_shot(true)
 	timerDead.connect("timeout", self, "restartGame")
@@ -115,6 +123,10 @@ func _ready():
 		enemy.position = map_to_world(enemy.start_position)
 
 func _process(delta):
+	if Input.is_action_pressed("ui_cancel"):
+        print("--> echap = menu pause")
+        var m = preload("res://procedural/GUI/MenuPause.tscn").instance()
+        add_child( m )
 	if player.grid_position == Vector2():
 		return
 	
@@ -135,22 +147,31 @@ func _process(delta):
 		superPiece(player.grid_position)
 
 func stopGame():
-	player.get_eaten()
-	Inky.set_standing()
-	Blinky.set_standing()
-	Pinky.set_standing()
-	Clyde.set_standing()
-	Inky.startTimer.stop()
-	Blinky.startTimer.stop()
-	Pinky.startTimer.stop()
-	Clyde.startTimer.stop()
+	player_life = player_life-1
+	print(player_life)
+	player.tween.stop_all()
 	$GameMusic.stop()
-	timerDead.start()
+	if(player_victory):
+		$VictorySound.play()
+	elif(player_life == 0):
+		player.get_eaten()
+		$PlayerGO.play()
+	else:
+		player.get_eaten()
+		$PlayerDead.play()
+		timerDead.start()
+	for enemy in enemies:
+		enemy.tween.stop_all()
+		enemy.set_standing()
+		enemy.startTimer.stop()
 
 func retirerPiece(pos):
 	self.set_cellv(pos, 4)
 	bonuses_position.erase(pos)
 	scorePartie += 1
+	if(bonuses_position.empty() && mega_bonuses_position.empty()):
+		player_victory = true
+		stopGame()
 
 func superPiece(pos):
 	timerFlee.start()
@@ -161,11 +182,20 @@ func superPiece(pos):
 		enemy.set_fleeing()
 	$FleeSound.play()
 	$GameMusic.pitch_scale = 2
+	player.set_transformation(true)
+	timerFleeEnd.start()
 		
 func _on_flee_timeout():
 	$GameMusic.pitch_scale = 1
 	for enemy in enemies :
 		enemy.set_following()
+		enemy.fleeEnd = false
+	player.set_transformation(false)
+	
+func _on_flee_end_timeout():
+	for enemy in enemies :
+		enemy.fleeEnd = true
+		enemy.anim.play("FleeEnd")
 		
 func restartGame():
 	for enemy in enemies :

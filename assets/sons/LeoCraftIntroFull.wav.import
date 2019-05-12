@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/LeoCraftIntroFull.wav-a3e93cc2333c7b87c1150dffca6b32cf.sample"
+
+[deps]
+
+source_file="res://assets/sons/LeoCraftIntroFull.wav"
+dest_files=[ "res://.import/LeoCraftIntroFull.wav-a3e93cc2333c7b87c1150dffca6b32cf.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0
