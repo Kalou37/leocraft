@@ -64,7 +64,14 @@ func _process(delta):
 		#1 = droite et bas / 0 = gauche et haut
 		objective = get_next_flee_cell()
 		if fleeEnd:
-			anim.play("FleeEnd")
+			if(ID == "Blinky"):
+				anim.play("FleeEndBlinky")
+			elif(ID == "Pinky"):
+				anim.play("FleeEndPinky")
+			elif(ID == "Inky"):
+				anim.play("FleeEndInky")
+			elif(ID == "Clyde"):
+				anim.play("FleeEndClyde")
 		else:
 			anim.play("Flee")
 		move_time = 0.5

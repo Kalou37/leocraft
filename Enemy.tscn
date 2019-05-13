@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Enemy.gd" type="Script" id=1]
 [ext_resource path="res://assets/enemy/Eyes.png" type="Texture" id=2]
@@ -18,9 +18,11 @@
 [ext_resource path="res://assets/enemy/ghost_pink_x64_2.png" type="Texture" id=16]
 [ext_resource path="res://assets/enemy/ghost_pink_x64_3.png" type="Texture" id=17]
 [ext_resource path="res://assets/enemy/ghost_pink_x64_4.png" type="Texture" id=18]
-[ext_resource path="res://assets/enemy/Affraid1.png" type="Texture" id=19]
-[ext_resource path="res://assets/enemy/Affraid2.png" type="Texture" id=20]
-[ext_resource path="res://assets/sons/scream3.wav" type="AudioStream" id=21]
+[ext_resource path="res://assets/enemy/ghost_special_x64_1.png" type="Texture" id=19]
+[ext_resource path="res://assets/enemy/ghost_special_x64_2.png" type="Texture" id=20]
+[ext_resource path="res://assets/enemy/ghost_special_x64_3.png" type="Texture" id=21]
+[ext_resource path="res://assets/enemy/ghost_special_x64_4.png" type="Texture" id=22]
+[ext_resource path="res://assets/sons/scream3.wav" type="AudioStream" id=23]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -49,14 +51,29 @@ animations = [ {
 "name": "Pinky",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 19 ), ExtResource( 20 ) ],
+"frames": [ ExtResource( 19 ), ExtResource( 15 ), ExtResource( 20 ), ExtResource( 16 ), ExtResource( 21 ), ExtResource( 17 ), ExtResource( 22 ), ExtResource( 18 ) ],
+"loop": true,
+"name": "FleeEndPinky",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 22 ) ],
 "loop": true,
 "name": "Flee",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 19 ), ExtResource( 7 ), ExtResource( 20 ), ExtResource( 9 ) ],
+"frames": [ ExtResource( 19 ), ExtResource( 7 ), ExtResource( 20 ), ExtResource( 8 ), ExtResource( 21 ), ExtResource( 9 ), ExtResource( 22 ), ExtResource( 10 ) ],
 "loop": true,
-"name": "FleeEnd",
+"name": "FleeEndInky",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 19 ), ExtResource( 3 ), ExtResource( 20 ), ExtResource( 4 ), ExtResource( 21 ), ExtResource( 5 ), ExtResource( 22 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "FleeEndBlinky",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 19 ), ExtResource( 11 ), ExtResource( 20 ), ExtResource( 12 ), ExtResource( 21 ), ExtResource( 13 ), ExtResource( 22 ), ExtResource( 14 ) ],
+"loop": true,
+"name": "FleeEndClyde",
 "speed": 5.0
 } ]
 
@@ -71,15 +88,14 @@ script = ExtResource( 1 )
 position = Vector2( 30.5756, 29.8546 )
 scale = Vector2( 1.2, 1.2 )
 frames = SubResource( 1 )
-animation = "Blinky"
-frame = 3
+animation = "Inky"
 playing = true
 
 [node name="Tween" type="Tween" parent="AnimatedSprite"]
 
 [node name="EatGhost" type="AudioStreamPlayer2D" parent="."]
 position = Vector2( 33.6157, 37.6041 )
-stream = ExtResource( 21 )
+stream = ExtResource( 23 )
 
 [node name="CollEnemy" type="CollisionShape2D" parent="."]
 position = Vector2( 30.7669, 33.4645 )

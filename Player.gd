@@ -66,16 +66,25 @@ func _process(delta):
 	grid_position = grid.get_player_pos()
 	#get input from the player in a Vector2 that will be
 	#one of the directional vectors. IDLE happens when there are no input 
-	if(Input.get_joy_axis(0, JOY_AXIS_0) != 0):
-		dir_x = Input.get_joy_axis(0, JOY_AXIS_0)
-	if(Input.get_joy_axis(0, JOY_AXIS_2) != 0):
-		dir_y = Input.get_joy_axis(0, JOY_AXIS_2)
-	if(int(Input.is_action_pressed("ui_right"))-int(Input.is_action_pressed("ui_left")) != 0):
-		dir_x = int(Input.is_action_pressed("ui_right"))-int(Input.is_action_pressed("ui_left"))
-	if(int(Input.is_action_pressed("ui_down"))-int(Input.is_action_pressed("ui_up")) != 0):
-		dir_y = int(Input.is_action_pressed("ui_down"))-int(Input.is_action_pressed("ui_up"))
+	if Input.is_action_just_pressed("ui_down"):
+		dir_y = 1
+	if Input.is_action_just_pressed("ui_up"):
+		dir_y = -1
+	if Input.is_action_just_pressed("ui_right"):
+		dir_x = 1
+	if Input.is_action_just_pressed("ui_left"):
+		dir_x = -1
+		
+		
+	#if(Input.get_joy_axis(0, JOY_AXIS_0) != 0):
+	#	dir_x = Input.get_joy_axis(0, JOY_AXIS_0)
+	#if(Input.get_joy_axis(0, JOY_AXIS_1) != 0):
+	#	dir_y = Input.get_joy_axis(0, JOY_AXIS_2)
+	#if(int(Input.is_action_pressed("ui_right"))-int(Input.is_action_pressed("ui_left")) != 0):
+	#	dir_x = int(Input.is_action_pressed("ui_right"))-int(Input.is_action_pressed("ui_left"))
+	#if(int(Input.is_action_pressed("ui_down"))-int(Input.is_action_pressed("ui_up")) != 0):
+	#	dir_y = int(Input.is_action_pressed("ui_down"))-int(Input.is_action_pressed("ui_up"))
 	var input_direction = Vector2(dir_x, dir_y)
-	print(input_direction)
 	#if the input is valid (not IDLE) it will be our next direction
 	if input_direction != IDLE :
 		next_direction = input_direction

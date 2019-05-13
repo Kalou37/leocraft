@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/world/map_deep.png" type="Texture" id=1]
 [ext_resource path="res://piece.tres" type="TileSet" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://assets/sons/sf-fermport.wav" type="AudioStream" id=8]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Enemy.tscn" type="PackedScene" id=10]
+[ext_resource path="res://assets/world/huv_empty.png" type="Texture" id=11]
 
 [node name="Node2D" type="Node2D"]
 
@@ -17,9 +18,6 @@
 position = Vector2( 304.096, 336.631 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 1 )
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="Grid" type="TileMap" parent="."]
 scale = Vector2( 0.5, 0.5 )
@@ -67,4 +65,11 @@ start_position = Vector2( 8, 9 )
 [node name="Clyde" parent="Grid" instance=ExtResource( 10 )]
 ID = "Clyde"
 start_position = Vector2( 10, 9 )
+
+[node name="HUD" type="Sprite" parent="Grid"]
+position = Vector2( 1421.79, 673.05 )
+scale = Vector2( 0.988648, 1.31222 )
+texture = ExtResource( 11 )
+region_enabled = true
+region_rect = Rect2( 863, 0, 420, 1024 )
 

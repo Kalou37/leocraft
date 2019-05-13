@@ -24,9 +24,11 @@ var bonuses_position : Array
 
 var mega_bonuses_position : Array
 
-var grid
+var oeuvre_aleat : int = 0
 
-var scorePartie : int = 0
+var grid = get_parent()
+
+var scorePartie : int
 
 var timerFlee = Timer.new()
 
@@ -99,8 +101,9 @@ func astar_get_next_cell(cell_from : Vector2, cell_to : Vector2) -> Vector2:
 	return Vector2()
 
 func _ready():
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	scorePartie = 0
 	$GameMusic.play()
-	grid = get_parent()
 	wall_list = get_used_cells_by_id(0) + get_used_cells_by_id(3)
 	bonuses_position = get_used_cells_by_id(1)
 	mega_bonuses_position = get_used_cells_by_id(2)
@@ -124,7 +127,6 @@ func _ready():
 
 func _process(delta):
 	if Input.is_action_pressed("ui_cancel"):
-        print("--> echap = menu pause")
         var m = preload("res://procedural/GUI/MenuPause.tscn").instance()
         add_child( m )
 	if player.grid_position == Vector2():
@@ -148,7 +150,6 @@ func _process(delta):
 
 func stopGame():
 	player_life = player_life-1
-	print(player_life)
 	player.tween.stop_all()
 	$GameMusic.stop()
 	if(player_victory):
@@ -161,7 +162,6 @@ func stopGame():
 		$PlayerDead.play()
 		timerDead.start()
 	for enemy in enemies:
-		enemy.tween.stop_all()
 		enemy.set_standing()
 		enemy.startTimer.stop()
 
