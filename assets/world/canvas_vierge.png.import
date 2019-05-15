@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/canvas_vierge.png-dd1c6970b878bc8bb6f80ca296ba6a08.image"
+
+[deps]
+
+source_file="res://assets/world/canvas_vierge.png"
+dest_files=[ "res://.import/canvas_vierge.png-dd1c6970b878bc8bb6f80ca296ba6a08.image" ]
+
+[params]
+

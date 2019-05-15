@@ -1,13 +1,14 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://assets/sons/LeoCraftIntroLite.wav" type="AudioStream" id=2]
 [ext_resource path="res://assets/UI/screen_accueil.png" type="Texture" id=3]
-[ext_resource path="res://assets/UI/start_hover.png" type="Texture" id=4]
-[ext_resource path="res://assets/UI/quitter_hover.png" type="Texture" id=5]
+[ext_resource path="res://assets/UI/screen_accueil_b.png" type="Texture" id=4]
+[ext_resource path="res://assets/UI/start_hover.png" type="Texture" id=5]
+[ext_resource path="res://assets/UI/instru_hover.png" type="Texture" id=6]
+[ext_resource path="res://assets/UI/quitter_hover.png" type="Texture" id=7]
 
 [node name="Node2D" type="Node2D"]
-editor/display_folded = true
 script = ExtResource( 1 )
 
 [node name="Intro" type="AudioStreamPlayer2D" parent="."]
@@ -18,24 +19,25 @@ position = Vector2( 407.876, 334.069 )
 scale = Vector2( 0.646309, 0.677458 )
 texture = ExtResource( 3 )
 
-[node name="Label" type="Label" parent="."]
-margin_left = 528.459
-margin_top = 379.449
-margin_right = 625.459
-margin_bottom = 393.449
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_colors/font_color_shadow = Color( 0.517647, 0.517647, 0.517647, 1 )
-text = "Non disponible"
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 407.876, 334.069 )
+scale = Vector2( 0.646, 0.677 )
+texture = ExtResource( 4 )
 
 [node name="Boutons" type="Node2D" parent="."]
 
 [node name="PressStart" type="Sprite" parent="Boutons"]
-position = Vector2( 415.173, 311.33 )
-scale = Vector2( 0.7, 0.7 )
-texture = ExtResource( 4 )
-
-[node name="Quitter" type="Sprite" parent="Boutons"]
-position = Vector2( 415.173, 456.414 )
+position = Vector2( 415.173, 262.171 )
 scale = Vector2( 0.7, 0.7 )
 texture = ExtResource( 5 )
+
+[node name="Instruction" type="Sprite" parent="Boutons"]
+position = Vector2( 415.173, 419.363 )
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 6 )
+
+[node name="Quitter" type="Sprite" parent="Boutons"]
+position = Vector2( 415.173, 501.792 )
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 7 )
 

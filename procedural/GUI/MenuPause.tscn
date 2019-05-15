@@ -1,34 +1,49 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://procedural/GUI/MenuPause.gd" type="Script" id=1]
-[ext_resource path="res://assets/UI/menu.png" type="Texture" id=2]
+[ext_resource path="res://assets/UI/screen_pause_with_leo.png" type="Texture" id=2]
+[ext_resource path="res://assets/UI/btn_pause_retour.png" type="Texture" id=3]
+[ext_resource path="res://assets/UI/btn_pause_menu.png" type="Texture" id=4]
+[ext_resource path="res://assets/UI/btn_pause_quitter.png" type="Texture" id=5]
+[ext_resource path="res://assets/UI/looking_right_topm.png" type="Texture" id=6]
+[ext_resource path="res://assets/UI/looking_right_middle.png" type="Texture" id=7]
+[ext_resource path="res://assets/UI/looking_right_bottom.png" type="Texture" id=8]
 
 [node name="MenuPause" type="CanvasLayer"]
 pause_mode = 2
 script = ExtResource( 1 )
 
-[node name="ColorRect" type="ColorRect" parent="."]
-margin_right = 814.0
-margin_bottom = 672.0
-color = Color( 0.129412, 0.113725, 0.113725, 0.929412 )
-
-[node name="Menu" type="Node2D" parent="ColorRect"]
-pause_mode = 2
-
-[node name="Continuer" type="Sprite" parent="ColorRect/Menu"]
-position = Vector2( 407, 160 )
+[node name="Ecran" type="Sprite" parent="."]
+position = Vector2( 407, 336 )
+scale = Vector2( 0.7, 0.7 )
 texture = ExtResource( 2 )
-vframes = 3
 
-[node name="Recommencer" type="Sprite" parent="ColorRect/Menu"]
-position = Vector2( 407, 360 )
-texture = ExtResource( 2 )
-vframes = 3
-frame = 2
+[node name="Retour" type="Sprite" parent="Ecran"]
+position = Vector2( 265.5, -229 )
+texture = ExtResource( 3 )
 
-[node name="Quitter" type="Sprite" parent="ColorRect/Menu"]
-position = Vector2( 407, 490 )
-texture = ExtResource( 2 )
-vframes = 3
-frame = 1
+[node name="Menu" type="Sprite" parent="Ecran"]
+position = Vector2( 265.84, -19 )
+texture = ExtResource( 4 )
+
+[node name="Quitter" type="Sprite" parent="Ecran"]
+position = Vector2( 265.5, 191 )
+texture = ExtResource( 5 )
+
+[node name="Regard" type="Node2D" parent="."]
+
+[node name="LookUp" type="Sprite" parent="Regard"]
+position = Vector2( 202.6, 312.55 )
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 6 )
+
+[node name="LookMiddle" type="Sprite" parent="Regard"]
+position = Vector2( 202.6, 312.55 )
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 7 )
+
+[node name="LookBottom" type="Sprite" parent="Regard"]
+position = Vector2( 202.6, 312.55 )
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 8 )
 

@@ -12,30 +12,28 @@ onready var grid = get_parent()
 
 onready var tween = $AnimatedSprite/Tween
 
-onready var player = $Player
+#onready var player = $Player
 
-enum behavior {FOLLOW, FLEE, STAND, DEAD, VICTORIOUS}
+enum behavior {FOLLOW, FLEE, FLEE_END, STAND, DEAD, VICTORIOUS}
 
 var current_behavior = behavior.STAND
 
-var player_position : Vector2
+#var player_position : Vector2
 
 var grid_position : Vector2
-
-var fleeEnd : bool = false
 
 var startTimer = Timer.new()
 var timerDelay = 0
 
 func _ready():
 	if(ID == "Blinky"):
-		timerDelay = 2
+		timerDelay = 1
 	elif(ID == "Pinky"):
-		timerDelay = 3
+		timerDelay = 1.8
 	elif(ID == "Inky"):
-		timerDelay = 4
+		timerDelay = 2.6
 	elif(ID == "Clyde"):
-		timerDelay = 5
+		timerDelay = 3.4
 
 	startTimer.set_wait_time(timerDelay)
 	startTimer.set_one_shot(true)
@@ -44,7 +42,7 @@ func _ready():
 	add_child(startTimer)
 	startTimer.start()
 	#	
-	#position = grid.map_to_world(start_position)
+	position = grid.map_to_world(start_position)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -57,23 +55,23 @@ func _process(delta):
 		#I'm following, my objective is Pacman
 		objective = grid.get_player_pos()
 		anim.play(ID)
-		move_time = 0.3
+		move_time = 0.2
 		next_position = grid.astar_get_next_cell(grid_position,objective)
 	elif current_behavior == behavior.FLEE:
-		#I'm fleeing, mmy objective is far away from pacman
-		#1 = droite et bas / 0 = gauche et haut
 		objective = get_next_flee_cell()
-		if fleeEnd:
-			if(ID == "Blinky"):
-				anim.play("FleeEndBlinky")
-			elif(ID == "Pinky"):
-				anim.play("FleeEndPinky")
-			elif(ID == "Inky"):
-				anim.play("FleeEndInky")
-			elif(ID == "Clyde"):
-				anim.play("FleeEndClyde")
-		else:
-			anim.play("Flee")
+		anim.play("Flee")
+		move_time = 0.3
+		next_position = grid.astar_get_next_cell(grid_position,objective)
+	elif current_behavior == behavior.FLEE_END:
+		objective = get_next_flee_cell()
+		if(ID == "Blinky"):
+			anim.play("FleeEndBlinky")
+		elif(ID == "Pinky"):
+			anim.play("FleeEndPinky")
+		elif(ID == "Inky"):
+			anim.play("FleeEndInky")
+		elif(ID == "Clyde"):
+			anim.play("FleeEndClyde")
 		move_time = 0.5
 		next_position = grid.astar_get_next_cell(grid_position,objective)
 	elif current_behavior == behavior.STAND:
@@ -89,13 +87,9 @@ func _process(delta):
 			current_behavior = behavior.FOLLOW
 	elif current_behavior == behavior.VICTORIOUS:
 		print("#Je vous emmerde et je rentre à ma maison")
-		#next_position = start_position
-		#anim.play("follow")
-		#move_time = 1.5
-		#if grid_position == start_position :
-		#	current_behavior = behavior.FOLLOW
+		anim.play("follow")
+		current_behavior = behavior.FOLLOW
 	
-	#I get my next position from the grid
 
 	if next_position == Vector2():
 		return
@@ -150,16 +144,29 @@ func set_standing() :
 func set_fleeing() : 
 	current_behavior = behavior.FLEE
 	
+func set_fleeingEnd() : 
+	current_behavior = behavior.FLEE_END
+	
 func set_following() : 
 	current_behavior = behavior.FOLLOW
 
 #retrun true if our current behavior is FOLLOW
 func is_following() : 
 	return current_behavior == behavior.FOLLOW
+	
 
 #retrun true if our current behavior is FLEE
 func is_fleeing() : 
 	return current_behavior == behavior.FLEE
 
+func is_end_fleeing() : 
+	return current_behavior == behavior.FLEE_END
+
 func is_standing() : 
 	return current_behavior == behavior.STAND
+	
+func stopAll():
+	tween.stop_all()
+	set_standing()
+	startTimer.stop()
+	set_process(true)

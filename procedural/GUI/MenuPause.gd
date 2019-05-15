@@ -4,15 +4,19 @@ var cur_pos = 0
 var nxt_pos = 0
 var max_pos = 0
 var lst = []
+var lstR = []
 
-signal selected_item(value)
+#signal selected_item(value)
 
 func _ready():
 	get_tree().paused = true
 	
-	lst = $ColorRect/Menu.get_children()
+	lst = $Ecran.get_children()
+	lstR = $Regard.get_children()
 	for i in range(1, lst.size() ):
-		lst[i].modulate.a = 0.3
+		lst[i].visible = false
+	for i in range(1, lstR.size() ):
+		lstR[i].visible = false
 	max_pos = lst.size() - 1
 
 
@@ -35,9 +39,11 @@ func change_pos(new_pos):
 	print("New pos : ", new_pos)
 	for i in range ( lst.size() ):
 		if i == new_pos :
-			lst[i].modulate.a = 1
+			lst[i].visible = true
+			lstR[i].visible = true
 		else :
-			lst[i].modulate.a = 0.3
+			lst[i].visible = false
+			lstR[i].visible = false
 			
 func on_valid_menu():
 	match cur_pos:

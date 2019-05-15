@@ -1,0 +1,75 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://instructions.gd" type="Script" id=1]
+[ext_resource path="res://assets/UI/screen_explanation.png" type="Texture" id=2]
+[ext_resource path="res://assets/UI/precedent.png" type="Texture" id=3]
+[ext_resource path="res://assets/UI/precedent_hover.png" type="Texture" id=4]
+[ext_resource path="res://assets/UI/continuer.png" type="Texture" id=5]
+[ext_resource path="res://assets/UI/continuer_hover.png" type="Texture" id=6]
+[ext_resource path="res://assets/UI/lancer.png" type="Texture" id=7]
+[ext_resource path="res://assets/UI/lancer_hover.png" type="Texture" id=8]
+[ext_resource path="res://assets/UI/retour_menu.png" type="Texture" id=9]
+[ext_resource path="res://assets/UI/retour_menu_hover.png" type="Texture" id=10]
+[ext_resource path="res://assets/UI/explain1.png" type="Texture" id=11]
+
+[node name="EcranPrincipale" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="EcranInstruction" type="Sprite" parent="."]
+position = Vector2( 407.05, 336.202 )
+scale = Vector2( 0.635846, 0.656269 )
+texture = ExtResource( 2 )
+
+[node name="Precedent" type="Sprite" parent="."]
+position = Vector2( 196, 580 )
+scale = Vector2( 0.635846, 0.656269 )
+texture = ExtResource( 3 )
+
+[node name="PrecedentHover" type="Sprite" parent="."]
+position = Vector2( 196, 580 )
+scale = Vector2( 0.635846, 0.656269 )
+texture = ExtResource( 4 )
+
+[node name="Suivant" type="Sprite" parent="."]
+position = Vector2( 610, 580 )
+scale = Vector2( 0.635846, 0.656269 )
+texture = ExtResource( 5 )
+
+[node name="SuivantHover" type="Sprite" parent="."]
+position = Vector2( 610, 580 )
+scale = Vector2( 0.635846, 0.656269 )
+texture = ExtResource( 6 )
+
+[node name="Jeu" type="Sprite" parent="."]
+position = Vector2( 407, 580 )
+texture = ExtResource( 7 )
+
+[node name="JeuHover" type="Sprite" parent="."]
+position = Vector2( 407, 580 )
+texture = ExtResource( 8 )
+
+[node name="Retour1" type="Sprite" parent="."]
+position = Vector2( 196, 580 )
+scale = Vector2( 0.636, 0.656 )
+texture = ExtResource( 9 )
+
+[node name="Retour1Hover" type="Sprite" parent="."]
+position = Vector2( 196, 580 )
+scale = Vector2( 0.636, 0.656 )
+texture = ExtResource( 10 )
+
+[node name="Retour2" type="Sprite" parent="."]
+position = Vector2( 610, 580 )
+scale = Vector2( 0.636, 0.656 )
+texture = ExtResource( 9 )
+
+[node name="Retour2Hover" type="Sprite" parent="."]
+position = Vector2( 610, 580 )
+scale = Vector2( 0.636, 0.656 )
+texture = ExtResource( 10 )
+
+[node name="Explain" type="Sprite" parent="."]
+position = Vector2( 403.052, 446.417 )
+scale = Vector2( 0.635612, 0.657112 )
+texture = ExtResource( 11 )
+

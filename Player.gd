@@ -6,6 +6,7 @@ var DOWN = Vector2(0,1)
 var LEFT = Vector2(-1,0)
 var RIGHT = Vector2(1,0)
 var IDLE = Vector2(0,0)
+var POS_INIT = Vector2(9,11)
 
 #TODO : add variable for score and life counter
 # and their logic
@@ -53,7 +54,7 @@ func move() :
 			moving = true
 			#to move smoothlly from one cell to the next
 			tween.interpolate_property(self,"position", grid.map_to_world(grid_position), grid.map_to_world(grid_position+direction), 
-				0.3, Tween.TRANS_LINEAR, Tween.EASE_OUT_IN)
+				0.2, Tween.TRANS_LINEAR, Tween.EASE_OUT_IN)
 			tween.start()
 			#move until the tween animation is over
 			yield(tween,"tween_completed")
@@ -61,6 +62,7 @@ func move() :
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	
 	var dir_x : int = 0
 	var dir_y : int = 0
 	grid_position = grid.get_player_pos()
@@ -118,10 +120,7 @@ func _process(delta):
 func get_eaten():
 	print("MORT")
 	current_state = state.DEAD
-	
-func restart():
-	current_state = state.PREY
-	moving = false
+	set_process(false)
 	
 func set_transformation(val):
 	if(val):
@@ -129,4 +128,4 @@ func set_transformation(val):
 		anim.play("char")
 	else:
 		mode_char = false
-		anim.play("right")
+		anim.play("down")
