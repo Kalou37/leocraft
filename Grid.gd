@@ -188,9 +188,12 @@ func _process(delta):
 			player_defeat = true
 	if player.grid_position == Vector2():
 		return
+	print(player.grid_position.x)
 	if (player.grid_position.x == -2):
+		print("teleport")
 		player.position = map_to_world(Vector2(19,player.grid_position.y))
 	if (player.grid_position.x == 20):
+		print("teleport")
 		player.position = map_to_world(Vector2(-1,player.grid_position.y))
 		
 	for enemy in enemies :
